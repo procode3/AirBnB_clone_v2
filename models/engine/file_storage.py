@@ -38,7 +38,6 @@ class FileStorage:
             key = f'{obj.__class__.__name__}.{obj.id}'
             del FileStorage.__objects[key]
             self.save()
- 
 
     def reload(self):
         """Loads storage dictionary from file"""
