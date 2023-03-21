@@ -13,8 +13,12 @@ class FileStorage:
         if not cls:
             return FileStorage.__objects
         else:
-            fd = {key: value for key, value in FileStorage.__objects.items() if cls.__name__ in key}
-            return fd
+           filter_dict = {}
+            class_name = cls.__name__
+            for key, value in FileStorage.__objects.items():
+                if (class_name in key):
+                    filter_dict[key] = value
+            return filter_dict 
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
