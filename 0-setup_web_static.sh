@@ -9,13 +9,8 @@ sudo apt-get install nginx -y
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/shared/
 
-
-#creating needed folders
-sudo mkdir -p /data/web_static/releases/test/ /data/web_static/shared/
-
 #test html file
-echo "
-<!DOCTYPE html>
+echo "<!DOCTYPE html>
 <html>
   <head>
   </head>
