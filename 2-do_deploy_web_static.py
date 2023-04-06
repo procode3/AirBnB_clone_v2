@@ -26,6 +26,7 @@ def do_deploy(archive_path):
         run("sudo rm -rf {}/web_static".format(dir_path))
         run("sudo rm -rf /data/web_static/current")
         run("sudo ln -sf {} /data/web_static/current".format(dir_path))
+        print("New version deployed!")
     except Exception as e:
         return False
     return True
