@@ -21,6 +21,9 @@ def do_deploy(archive_path):
         run("sudo mkdir -p {}".format(dir_path))
         run("sudo tar -xvzf /tmp/{} -C {}".format(file_path, dir_path))
         run("sudo rm /tmp/{}".format(file_path))
+        run("sudo mv {}/web_static/* {}".format(dir_path, dir_path))
+        run("sudo rm -rf {}/web_static".format(dir_path))
+        run("sudo rm -rf /data/web_static/current")
         run("sudo ln -sf {} /data/web_static/current".format(dir_path))
     except Exception as e:
         return False
