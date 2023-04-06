@@ -1,17 +1,13 @@
 #!/usr/bin/python3
 """Deploying the webstatic to the server
 """
-from fabric import Connection
+from fabric.api import env, put, run
 import os
 
-hosts = ["ubuntu@54.152.198.15", "ubuntu@54.234.1.228"]
+env.hosts = ["54.152.198.15", "54.234.1.228"]
 
 
 def do_deploy(archive_path):
-
-    connects = []
-    for host in hosts:
-        connects.append(Connection(host))
 
     if not os.path.isfile(archive_path):
         return False
@@ -21,12 +17,11 @@ def do_deploy(archive_path):
 
     dir_path = "/data/web_static/releases/{}".format(dir_name)
     try:
-        for c in connects:
-            c.put(archive_path, "/tmp/")
-            c.run("sudo mkdir -p {}".format(dir_path))
-            c.run("sudo tar -xvzf /tmp/{} -C {}".format(file_path, dir_path))
-            c.run("sudo rm /tmp/{}".format(file_path))
-            c.run("sudo ln -sf {} /data/web_static/current".format(dir_path))
+        put(archive_path, "/tmp/")
+        run("sudo mkdir -p {}".format(dir_path))
+        run("sudo tar -xvzf /tmp/{} -C {}".format(file_path, dir_path))
+        run("sudo rm /tmp/{}".format(file_path))
+        run("sudo ln -sf {} /data/web_static/current".format(dir_path))
     except Exception as e:
         return False
     return True
