@@ -8,7 +8,8 @@ env.hosts = ["54.152.198.15", "54.234.1.228"]
 
 
 def do_deploy(archive_path):
-
+    """Deploy that transfers and extract the tgz file
+    """
     if not os.path.isfile(archive_path):
         return False
 
