@@ -1,4 +1,4 @@
-#!/user/bin/python3
+#!/usr/bin/python3
 """Creating a tar archive using fab
 """
 from fabric.api import local
