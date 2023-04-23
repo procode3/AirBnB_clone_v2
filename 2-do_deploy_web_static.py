@@ -1,32 +1,35 @@
 #!/usr/bin/python3
-"""Deploying the webstatic to the server
-"""
-from fabric.api import env, put, run
-import os
+"""a script to send an archive file to a remote server
+and decompress it"""
 
-env.hosts = ["54.152.198.15", "54.234.1.228"]
+from fabric.api import run, env, put
+import os.path
+
+env.hosts = ['54.162.93.251', '100.25.3.37']
+env.key_filename = '~/.ssh/school'
+env.user = 'ubuntu'
 
 
 def do_deploy(archive_path):
-    """Deploy that transfers and extract the tgz file
-    """
+    """a function to deploy code and decompress it"""
+
     if not os.path.isfile(archive_path):
         return False
+    compressed_file = archive_path.split("/")[-1]
+    no_extension = compressed_file.split(".")[0]
 
-    file_path = archive_path.split("/")[-1]
-    dir_name = file_path.split(".")[0]
-
-    dir_path = "/data/web_static/releases/{}".format(dir_name)
     try:
+        remote_path = "/data/web_static/releases/{}/".format(no_extension)
+        sym_link = "/data/web_static/current"
         put(archive_path, "/tmp/")
-        run("sudo mkdir -p {}".format(dir_path))
-        run("sudo tar -xvzf /tmp/{} -C {}".format(file_path, dir_path))
-        run("sudo rm /tmp/{}".format(file_path))
-        run("sudo mv {}/web_static/* {}".format(dir_path, dir_path))
-        run("sudo rm -rf {}/web_static".format(dir_path))
+        run("sudo mkdir -p {}".format(remote_path))
+        run("sudo tar -xvzf /tmp/{} -C {}".format(compressed_file,
+                                                  remote_path))
+        run("sudo rm /tmp/{}".format(compressed_file))
+        run("sudo mv {}/web_static/* {}".format(remote_path, remote_path))
+        run("sudo rm -rf {}/web_static".format(remote_path))
         run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -sf {} /data/web_static/current".format(dir_path))
-        print("New version deployed!")
+        run("sudo ln -sf {} {}".format(remote_path, sym_link))
+        return True
     except Exception as e:
         return False
-    return True

@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""The main flask script for “Hello HBNB!”"""
+"""a flask script to display “Hello HBNB!”"""
 from flask import Flask
 
 
@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route("/", strict_slashes=False)
 def index():
-    """a method to return Hello HBNB"""
+    """a method to return hello HBNB"""
     return "Hello HBNB!"
 
 
