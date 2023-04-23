@@ -23,9 +23,9 @@ def do_deploy(archive_path):
     try:
         for c in connects:
             c.put(archive_path, "/tmp/")
-            c.run("mkdir -p {}".format(dir_name))
-            c.run("tar -xvzf tmp/{}.tgz -C {}".format(file_path, dir_path))
-            c.run("rm /tmp/{}".format(file_path))
+            c.run("sudo mkdir -p {}".format(dir_path))
+            c.run("sudo tar -xvzf /tmp/{} -C {}".format(file_path, dir_path))
+            c.run("sudo rm /tmp/{}".format(file_path))
             c.run("sudo ln -sf {} /data/web_static/current".format(dir_path))
     except Exception as e:
         return False
